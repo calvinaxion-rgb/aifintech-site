@@ -1,0 +1,102 @@
+<!-- public/pricing.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Pricing - AIFinTech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="max-w-4xl mx-auto p-6">
+    <h1 id="pricingTitle" class="text-3xl font-bold mb-6">Pricing</h1>
+    
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 id="proPlan" class="card-title">Pro Plan</h2>
+        <p class="text-2xl font-bold">$99<span class="text-sm">/month</span></p>
+        <ul id="features" class="list-disc pl-5 mt-2 space-y-1">
+          <li>Full AI financial insights</li>
+          <li>Unlimited API calls</li>
+          <li>Real-time portfolio advice</li>
+          <li>14-day free trial</li>
+        </ul>
+        <button id="upgradeBtn" class="btn btn-primary mt-4">Start Free Trial</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/i18n.js"></script>
+  <script>
+    // 多語言內容
+    const translations = {
+      en: {
+        title: "Pricing",
+        pro: "Pro Plan",
+        features: [
+          "Full AI financial insights",
+          "Unlimited API calls",
+          "Real-time portfolio advice",
+          "14-day free trial"
+        ],
+        button: "Start Free Trial"
+      },
+      'zh-CN': {
+        title: "定价",
+        pro: "专业版",
+        features: [
+          "完整的 AI 金融洞察",
+          "无限制 API 调用",
+          "实时投资组合建议",
+          "14 天免费试用"
+        ],
+        button: "开始免费试用"
+      },
+      'zh-TW': {
+        title: "定價",
+        pro: "專業版",
+        features: [
+          "完整的 AI 金融洞察",
+          "無限制 API 呼叫",
+          "即時投資組合建議",
+          "14 天免費試用"
+        ],
+        button: "開始免費試用"
+      }
+    };
+
+    function updatePricing() {
+      const lang = getLang();
+      const t = translations[lang] || translations.en;
+      document.getElementById('pricingTitle').textContent = t.title;
+      document.getElementById('proPlan').textContent = t.pro;
+      const featureItems = document.querySelectorAll('#features li');
+      t.features.forEach((text, i) => {
+        if (featureItems[i]) featureItems[i].textContent = text;
+      });
+      document.getElementById('upgradeBtn').textContent = t.button;
+    }
+
+    // 升級按鈕
+    document.getElementById('upgradeBtn').onclick = async () => {
+      const apiKey = localStorage.getItem('api_key');
+      if (!apiKey) return alert('Please apply for an API Key first.');
+      const email = prompt('Enter your billing email:');
+      if (!email) return;
+
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ apiKey, email })
+      });
+      const { url } = await res.json();
+      if (url) window.location.href = url;
+    };
+
+    updatePricing();
+    // 語言切換監聽
+    const langSwitch = document.createElement('select');
+    // ...（省略，同 index.html）
+  </script>
+</body>
+</html>

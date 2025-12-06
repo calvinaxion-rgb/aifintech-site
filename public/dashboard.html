@@ -1,0 +1,65 @@
+<!-- public/dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - AIFinTech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="max-w-6xl mx-auto p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">Financial Dashboard</h1>
+      <select id="langSwitch" class="select select-sm">
+        <option value="en">🌐 EN</option>
+        <option value="zh-CN">🇨🇳 简</option>
+        <option value="zh-TW">🇹🇼 繁</option>
+      </select>
+    </div>
+
+    <div id="modules" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- 動態載入內容 -->
+    </div>
+  </div>
+
+  <script src="/js/i18n.js"></script>
+  <script>
+    const MODULES = ['macro', 'stocks', 'crypto', 'news', 'portfolio'];
+    const API_KEY = localStorage.getItem('api_key') || 'demo'; // demo 模式
+
+    async function loadModule(module) {
+      const lang = getLang();
+      const url = `/api/v1/${lang}/${module}`;
+      try {
+        const res = await fetch(url, {
+          headers: { 'X-API-Key': API_KEY }
+        });
+        const data = await res.json();
+        return `<div class="card bg-base-200 p-4">
+          <h2 class="text-xl font-bold mb-2">${data.title || module}</h2>
+          <p>${data.content || 'Loading...'}</p>
+          <p class="text-sm text-gray-500 mt-2">Updated: ${data.timestamp}</p>
+        </div>`;
+      } catch (e) {
+        return `<div class="card bg-error p-4">Error loading ${module}</div>`;
+      }
+    }
+
+    async function renderDashboard() {
+      const modulesEl = document.getElementById('modules');
+      const cards = await Promise.all(MODULES.map(loadModule));
+      modulesEl.innerHTML = cards.join('');
+    }
+
+    // 初始化
+    document.getElementById('langSwitch').value = getLang();
+    document.getElementById('langSwitch').onchange = () => {
+      setLang(document.getElementById('langSwitch').value);
+      renderDashboard();
+    };
+    renderDashboard();
+  </script>
+</body>
+</html>

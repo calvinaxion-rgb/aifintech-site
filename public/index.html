@@ -1,0 +1,56 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AIFinTech — AI-Powered Financial Insights</title>
+  <meta name="description" content="Automated macro, stocks, crypto analysis. 24/7 AI insights. Free trial available.">
+  
+  <!-- SEO: hreflang -->
+  <link rel="alternate" hreflang="en" href="https://aifintech.aaft.tech/en" />
+  <link rel="alternate" hreflang="zh-CN" href="https://aifintech.aaft.tech/zh-CN" />
+  <link rel="alternate" hreflang="zh-TW" href="https://aifintech.aaft.tech/zh-TW" />
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-base-100 text-base-content">
+  <div class="max-w-6xl mx-auto px-4 py-8">
+    <!-- 語言切換 -->
+    <div class="flex justify-end mb-6">
+      <select id="langSwitch" class="select select-sm w-auto">
+        <option value="en">🌐 English</option>
+        <option value="zh-CN">🇨🇳 简体中文</option>
+        <option value="zh-TW">🇹🇼 繁體中文</option>
+      </select>
+    </div>
+
+    <h1 class="text-4xl font-bold mb-4">AI Financial Insights, 24/7</h1>
+    <p class="text-lg mb-6">Real-time macro, stocks, crypto, and portfolio analysis — fully automated by AI.</p>
+    
+    <div class="flex gap-4">
+      <a href="/dashboard.html" class="btn btn-primary">View Dashboard</a>
+      <a href="/pricing.html" class="btn btn-outline">Pricing</a>
+    </div>
+  </div>
+
+  <script>
+    // 語言切換邏輯
+    const langSwitch = document.getElementById('langSwitch');
+    const savedLang = localStorage.getItem('lang') || navigator.language;
+    if (savedLang.startsWith('zh-TW') || savedLang.startsWith('zh-HK')) {
+      langSwitch.value = 'zh-TW';
+    } else if (savedLang.startsWith('zh')) {
+      langSwitch.value = 'zh-CN';
+    } else {
+      langSwitch.value = 'en';
+    }
+
+    langSwitch.addEventListener('change', (e) => {
+      localStorage.setItem('lang', e.target.value);
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>

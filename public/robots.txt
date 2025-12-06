@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aifintech.aaft.tech/sitemap-en.xml
+Sitemap: https://aifintech.aaft.tech/sitemap-zh-CN.xml
+Sitemap: https://aifintech.aaft.tech/sitemap-zh-TW.xml
