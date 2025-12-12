@@ -60,6 +60,12 @@
       renderDashboard();
     };
     renderDashboard();
+// 語言變更時重新渲染
+  window.addEventListener('languageChanged', renderDashboard);
+
+  // 初始渲染
+  renderDashboard();
+</script>
   </script>
 </body>
 </html>
