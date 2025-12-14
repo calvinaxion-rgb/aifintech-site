@@ -1,14 +1,9 @@
-# worker/wrangler.toml
 name = "aifintech-api"
-main = "src/index.js"
 compatibility_date = "2024-12-07"
+main = "src/index.js"
+workers_dev = true
+preview_urls = true
 
-# KV 命名空間（用於儲存用戶與用量）
 [[kv_namespaces]]
 binding = "KV"
-id = "your-kv-namespace-id"
-
-# 環境變數（實際 Key 用 wrangler secret 設定）
-[vars]
-STRIPE_WEBHOOK_SECRET = ""
-GROQ_API_KEY = ""
+id = "eda1188c73ee4cbf9ca6f1d6bf34def5"
